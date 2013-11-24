@@ -28,11 +28,8 @@ def csv_to_dict(raw_csv_file):
                    category = product_data[colnum]
                    current_product[category] = col
                    colnum += 1
-               print current_product
                products.append(current_product)
 
-                
-                    
     return products
 
 def objectify(products):
@@ -41,12 +38,24 @@ def objectify(products):
         object_list.append(Product(product))
     
     return object_list
-        
-processed_csv = csv_to_dict("farm_data.csv") 
-probjects = objectify(processed_csv)
 
 def calculate_profits(product_objects):
     for product_object in product_objects:
         print product_object.calculate_profit()
 
-calculate_profits(probjects)
+def get_products():
+    # The first is when the file is called normally, 
+    # the second is when the file is called directly.
+    try:
+        processed_csv = csv_to_dict("econ_model/farm_data.csv")
+    except:
+        processed_csv = csv_to_dict("farm_data.csv")
+
+    return objectify(processed_csv)
+
+if __name__ == "__main__":
+    # This is called like this because state.py is in the parent
+    # directory.
+    probjects = get_products()
+    calculate_profits(probjects)
+   
